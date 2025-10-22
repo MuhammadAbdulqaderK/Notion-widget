@@ -49,6 +49,18 @@
 </div>
 
 <script>
+  function getWeek(d) {
+  const dt = new Date(d); // Date object for the input
+  const yearStart = new Date(dt.getFullYear(), 0, 1); // January 1st of that year
+  const dayOfYear = Math.floor((dt - yearStart) / 86400000); // Days passed since Jan 1
+  const startWeekday = yearStart.getDay(); // 0 (Sunday) to 6 (Saturday)
+  const offset = (startWeekday === 0) ? 6 : startWeekday - 1; // Adjust: ISO weeks start Monday
+  const weekNumber = Math.floor((dayOfYear + offset) / 7) + 1; // Compute week number
+  return weekNumber;
+}
+
+// Example usage:
+console.log(getWeek(new Date())); // Returns current week number
     function widgetDisplay() {  
         var today = new Date();
        
@@ -61,8 +73,10 @@
         var year = today.getFullYear();
         var weekDisplay = document.getElementById('week');
         var dateDisplay = document.getElementById('date');
+        
         weekDisplay.innerHTML = weekName;
-        dateDisplay.innerHTML = "&emsp;" + date + " " + monthName + " " + year;
+        
+        dateDisplay.innerHTML = "&emsp;" + date + " " + monthName + " " + year + " week: " + getWeek(new Date()) ;
     }
 
     widgetDisplay()
